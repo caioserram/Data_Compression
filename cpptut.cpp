@@ -14,10 +14,12 @@ int main(int argc, char *argv[]){
 	ifstream infile;
 	infile.open(argv[1], ios::binary | ios::in);
 	int i = 0;
+	//guarantees that the number are being read in an alternate manner
 	int count = 0;
-	short int real_temp = 0;
-	short int imag_temp = 0;
+	double real_temp = 0;
+	double imag_temp = 0;
 	while(infile.peek() != EOF){
+		//reads 2 bytes from file
 		infile.read((char *) (& x), 2);
 		i=i+2;
 		infile.seekg(i);
@@ -26,8 +28,15 @@ int main(int argc, char *argv[]){
 			count++;
 		}
 		else{
+			// create complex number 
 			imag_temp = x;
-			complex<int> complexo(real_temp,imag_temp);
+			complex<double> n_complex(real_temp,imag_temp);
+			//converts n_complex to polar notation
+			double abs_n_complex = (double) abs(n_complex);
+			double arg_n_complex = (double) arg(n_complex);
+			cout << arg_n_complex;
+			complex<double> n_complex_polar = polar(abs_n_complex,arg_n_complex);
+			cout << "real: "<<n_complex_polar.real() <<" imag: "<< n_complex_polar.imag() << endl;
 			count=0;
 		}
 	}
