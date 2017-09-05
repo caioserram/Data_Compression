@@ -29,21 +29,17 @@ int main(int argc, char *argv[]){
 		}
 		else{
 			// create complex number 
-			imag_temp = x;
+			imag_temp =x;
 			complex<double> n_complex(real_temp,imag_temp);
 			//converts n_complex to polar notation
-			double abs_n_complex = (double) abs(n_complex);
-			double arg_n_complex = (double) arg(n_complex);
-			cout << arg_n_complex;
-			complex<double> n_complex_polar = polar(abs_n_complex,arg_n_complex);
-			cout << "real: "<<n_complex_polar.real() <<" imag: "<< n_complex_polar.imag() << endl;
+			double abs_n_complex = abs(n_complex);
+			double arg_n_complex = arg(n_complex);
+			complex<double> n_complex_polar(abs_n_complex,arg_n_complex);
+			//here, it should convert the angle to be between 0 and 3
+			//save it to a output
 			count=0;
 		}
 	}
-	infile.clear();
 	infile.close();
-
-	
 	return(0);
-
 }
