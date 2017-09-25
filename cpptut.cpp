@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <complex>
+#include <cmath>
 #include <iostream>
 
 using namespace std;
@@ -10,16 +11,14 @@ using namespace std;
 int main(int argc, char *argv[]){
 
 	short int x = 0;
-
+	const int NORMALIZER = 4;
 	ifstream infile;
 	infile.open(argv[1], ios::binary | ios::in);
 	int i = 0;
-	//guarantees that the number are being read in an alternate manner
 	int count = 0;
 	double real_temp = 0;
 	double imag_temp = 0;
 	while(infile.peek() != EOF){
-		//reads 2 bytes from file
 		infile.read((char *) (& x), 2);
 		i=i+2;
 		infile.seekg(i);
@@ -28,18 +27,23 @@ int main(int argc, char *argv[]){
 			count++;
 		}
 		else{
-			// create complex number 
 			imag_temp =x;
 			complex<double> n_complex(real_temp,imag_temp);
-			//converts n_complex to polar notation
+			cout << "Real:     "<<real_temp << endl;
+			cout << "Imag:     "<<imag_temp << endl;
 			double abs_n_complex = abs(n_complex);
 			double arg_n_complex = arg(n_complex);
+			cout << "Arg:      "<< arg_n_complex << endl;
 			complex<double> n_complex_polar(abs_n_complex,arg_n_complex);
+			double arg_compressed = round((arg_n_complex + M_PI)/(2*M_PI)*(NORMALIZER-1));
+			complex<double> n_complex_polar_compressed(abs_n_complex,arg_compressed);
+			cout << "AgrComp:  "<<arg_compressed << endl;
 			//here, it should convert the angle to be between 0 and 3
 			//save it to a output
 			count=0;
 		}
 	}
 	infile.close();
+	
 	return(0);
 }
