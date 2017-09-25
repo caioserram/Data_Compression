@@ -38,8 +38,6 @@ int main(int argc, char *argv[]){
 			double arg_compressed = round((arg_n_complex + M_PI)/(2*M_PI)*(NORMALIZER-1));
 			complex<double> n_complex_polar_compressed(abs_n_complex,arg_compressed);
 			cout << "AgrComp:  "<<arg_compressed << endl;
-			//here, it should convert the angle to be between 0 and 3
-			//save it to a output
 			count=0;
 		}
 	}
