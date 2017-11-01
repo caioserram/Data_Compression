@@ -14,6 +14,7 @@
 #include <map>
 #include "compressor/Compressor.h"
 #include "huffman/Huffman.h"
+#include <algorithm>    // std::sort
 
 using namespace std;
 
@@ -22,6 +23,8 @@ size_t getFilesize(const char* filename) {
     stat(filename, &st);
     return st.st_size;
 }
+
+bool compare (pair<unsigned char,int> i,pair<unsigned char,int>j) { return (i.second>j.second); }
 
 int main(int argc, char *argv[]){
 
@@ -61,7 +64,7 @@ int main(int argc, char *argv[]){
 		symbol <<= 2;
 		
 		if((i+2) % 8 == 0){
-			cout << "final_symbol: " << (int) symbol << endl;
+		//	cout << "final_symbol: " << (int) symbol << endl;
 			symbols.push_back(symbol);
 			symbol = 0;
 		}
@@ -80,10 +83,22 @@ int main(int argc, char *argv[]){
 	
 	Huffman huffman(symbols);
 	map<unsigned char,int> symbol_freq = huffman.get_symbol_frequency();
-	
+	vector<pair<unsigned char,int>> symbol_freq_ordered;
 	for(auto elem : symbol_freq){
-		cout << elem.second << endl;
+		symbol_freq_ordered.push_back(elem);
 	}
+	
+	sort(symbol_freq_ordered.begin(),symbol_freq_ordered.end(),compare);
+	
+	
+	
+	for(auto elem: symbol_freq_ordered){
+		cout <<"elements: "<< (int) elem.first << " " << elem.second << endl;
+		
+	}
+	
+	cout <<"last_element: "<< (int) symbol_freq_ordered.back().first << " " << symbol_freq_ordered.back().second << endl;
+		
 	
 	return(0);
 }
